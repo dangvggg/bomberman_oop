@@ -17,7 +17,6 @@ public class Bomb extends Entity {
     // Danh sach cac flames hien ra khi bomb no
 
     private List<Flame> flames = new ArrayList<>();
-    private boolean done = false;
     private boolean exploded = false;
     private int explosionCountDown = 20;
     private int tickingCountDown = 90;
@@ -33,10 +32,6 @@ public class Bomb extends Entity {
         super(x, y, img);
         this.bombLevel = bombLevel;
         setFlames();
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
     }
 
     public boolean isExploded() {
@@ -75,7 +70,6 @@ public class Bomb extends Entity {
 
     public void explodingImg() {
         if (explosionCountDown == 0) {
-            setDone(true);
             this.img = null;
         } else {
             this.img = Sprite
@@ -132,7 +126,8 @@ public class Bomb extends Entity {
                         if (oX == fX && x == oX && oY - fY == 1 ||
                                 oX == fX && x == oX && oY - fY == -1 ||
                                 oX - fX == -1 && oY == fY && y == oY ||
-                                oX - fX == 1 && oY == fY && y == oY) {
+                                oX - fX == 1 && oY == fY && y == oY ||
+                                oX == fX && x == oX && oY == fY) {
                             ((Enemy) o).setDamaged(true);
                             damagedEntities.add(o);
                         }
@@ -158,7 +153,8 @@ public class Bomb extends Entity {
                 if (oX == fX && x == oX && oY - fY == 1 ||
                         oX == fX && x == oX && oY - fY == -1 ||
                         oX - fX == -1 && oY == fY && y == oY ||
-                        oX - fX == 1 && oY == fY && y == oY) {
+                        oX - fX == 1 && oY == fY && y == oY ||
+                        oX == fX && x == oX && oY == fY) {
                     ((Bomber) o).setDamaged(true);
                     damagedEntities.add(o);
                 }

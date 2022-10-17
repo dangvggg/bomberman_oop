@@ -5,6 +5,7 @@ import com.example.bomberman.SoundEffect;
 import com.example.bomberman.entities.Enemy.Enemy;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.NormalObject.Brick;
+import com.example.bomberman.entities.NormalObject.Wall;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
@@ -183,20 +184,19 @@ public class Bomb extends Entity {
                 if (row > 0 && row < BombermanGame.WIDTH - 1 && col > 0 && col < BombermanGame.HEIGHT - 1) {
                     char flag = BombermanGame.map[col][row];
                     if (flag == '*') {
-                        System.out.println("(" + col + " " + row + ")");
                         BombermanGame.map[col][row] = 'g';
                     }
                     if (flag == 'x') {
-                        System.out.println("(" + col + " " + row + ")");
                         BombermanGame.map[col][row] = 'x';
                     }
+                    if(flag != '#'){
                     if (j == bombLevel) {
                         flames.add(new Flame(x / Sprite.SCALED_SIZE + iX[i] * bombLevel, y / Sprite.SCALED_SIZE + iY[i] * bombLevel, null, pos[i + 4]));
                     } else {
                         flames.add(new Flame(x / Sprite.SCALED_SIZE + iX[i] * j, y / Sprite.SCALED_SIZE + iY[i] * j, null, pos[i]));
                     }
+                    }
                 }
-
             }
         }
     }

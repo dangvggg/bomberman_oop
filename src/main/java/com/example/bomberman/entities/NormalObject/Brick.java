@@ -9,7 +9,7 @@ public class Brick extends Entity {
     private Item item = null;
     private boolean damaged = false;
     private boolean done = false;
-    private int deathCountDown = 50;
+    private int deathCountDown = 200;
 
     public Brick(int x, int y, Image img) {
         super(x, y, img);
@@ -43,7 +43,6 @@ public class Brick extends Entity {
 
     public void collapsingImg() {
         if (deathCountDown == 0) {
-            this.img = null;
             setDone(true);
         } else {
             this.img = Sprite

@@ -302,6 +302,7 @@ public class BombermanGame extends Application {
             checkForDamagedEntities(entity);
             for (Entity damagedEntity : damagedEntities) {
                 updateStaticObjects(damagedEntity);
+                updateObject(damagedEntity);
             }
 
         }
@@ -347,7 +348,6 @@ public class BombermanGame extends Application {
             if (((Brick) br).isDone()) {
 
                 Brick brick = (Brick) br;
-
                 // replace the tile with the grass
                 damagedEntities.remove(br);
                 staticObjects.remove(br);
@@ -359,6 +359,16 @@ public class BombermanGame extends Application {
                 }
             } else {
                 br.update();
+            }
+        }
+    }
+
+    //notice
+    public void updateObject(Entity ey) {
+        if (ey instanceof Enemy) {
+            if (((Enemy) ey).isDamaged()) {
+                entities.remove(ey);
+                damagedEntities.remove(ey);
             }
         }
     }

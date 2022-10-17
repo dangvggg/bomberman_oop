@@ -82,6 +82,7 @@ public class Ghost extends Enemy {
     public void die() {
         if (deathCountDown == 0) {
             this.img = null;
+            super.die();
         } else {
             this.img = Sprite
                     .movingSprite(Sprite.mob_dead2, Sprite.mob_dead1, Sprite.ghost_dead, deathCountDown)

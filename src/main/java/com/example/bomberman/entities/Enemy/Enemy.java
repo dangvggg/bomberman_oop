@@ -130,7 +130,8 @@ public abstract class Enemy extends Entity {
     }
 
     public void die() {
-
+        x = 0;
+        y = 0;
     }
 
     @Override

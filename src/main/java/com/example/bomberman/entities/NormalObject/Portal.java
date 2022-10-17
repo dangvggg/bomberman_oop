@@ -5,7 +5,6 @@ import com.example.bomberman.entities.Bomberman.Bomber;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
-import com.example.bomberman.changeLevel;
 
 import static com.example.bomberman.BombermanGame.entities;
 
@@ -34,7 +33,7 @@ public class Portal extends Entity {
                 int oY = o.getY() / Sprite.SCALED_SIZE,  y = this.getY() / Sprite.SCALED_SIZE;
                 if(oX == x && oY == y) {
                     LevelUp = true;
-                    changeLevel.changeMap(BombermanGame.level);
+                    BombermanGame.INSTANCE.changeLevel();
                 }
             }
         }

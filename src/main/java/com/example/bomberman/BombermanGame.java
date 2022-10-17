@@ -155,6 +155,12 @@ public class BombermanGame extends Application {
 
     public void createMap(int level) {
         try {
+            stillObjects.clear();
+            entities.clear();
+            flames.clear();
+            staticObjects.clear();
+            damagedEntities.clear();
+
             Scanner scf = new Scanner(new BufferedReader(new FileReader("src/main/resources/levels/Level" + Integer.toString(level) + ".txt")));
 
             int lv = scf.nextInt();
@@ -171,6 +177,10 @@ public class BombermanGame extends Application {
                     Entity object;
                     char key = s1.charAt(j);
                     switch (key) {
+                        case 'p' -> {
+                            entities.add(bomberman);
+                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                        }
                         case '#' -> {
                             object = new Wall(j, i, Sprite.wall.getFxImage());
                             stillObjects.add(object);
@@ -365,8 +375,10 @@ public class BombermanGame extends Application {
             }
         }
     }
-    @Override
-    public void stop() {
-        System.out.println("waiting");
+    public void changeLevel() {
+        if (Portal.LevelUp == true) {
+            level++;
+            createMap(level);
+        }
     }
 }

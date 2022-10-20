@@ -21,7 +21,7 @@ public class Ballon extends Enemy {
         img = Sprite
                 .movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, currentImage.left)
                 .getFxImage();
-        if (currentImage.left == 8) {
+        if (currentImage.left == 32) {
             currentImage.left = 0;
         } else {
             currentImage.left++;
@@ -34,7 +34,7 @@ public class Ballon extends Enemy {
         img = Sprite
                 .movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, currentImage.down)
                 .getFxImage();
-        if (currentImage.down == 8) {
+        if (currentImage.down == 32) {
             currentImage.down = 0;
         } else {
             currentImage.down++;
@@ -48,7 +48,7 @@ public class Ballon extends Enemy {
         img = Sprite
                 .movingSprite(Sprite.balloom_right1, Sprite.balloom_right2, Sprite.balloom_right3, currentImage.right)
                 .getFxImage();
-        if (currentImage.right == 8) {
+        if (currentImage.right == 32) {
             currentImage.right = 0;
         } else {
             currentImage.right++;
@@ -61,7 +61,7 @@ public class Ballon extends Enemy {
         img = Sprite
                 .movingSprite(Sprite.balloom_left1, Sprite.balloom_left2, Sprite.balloom_left3, currentImage.up)
                 .getFxImage();
-        if (currentImage.up == 8) {
+        if (currentImage.up == 32){
             currentImage.up = 0;
         } else {
             currentImage.up++;
@@ -72,7 +72,7 @@ public class Ballon extends Enemy {
     @Override
     public void die() {
         if (deathCountDown == 0) {
-            this.img = null;
+            super.die();
         } else {
             this.img = Sprite
                     .movingSprite(Sprite.mob_dead2, Sprite.mob_dead1, Sprite.balloom_dead, deathCountDown)

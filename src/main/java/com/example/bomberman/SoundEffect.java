@@ -12,7 +12,7 @@ public class SoundEffect {
     //menuStart
     public static void menuStart(){
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/gameStart.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/gameStart.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(in);
             clip.loop (Clip.LOOP_CONTINUOUSLY);
@@ -25,7 +25,7 @@ public class SoundEffect {
     //an Start, Stop, Continue
     public static void StartButton(){
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/button.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/button.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(in);
             clip.start();
@@ -38,7 +38,7 @@ public class SoundEffect {
     //playGame
     public static void playGame(){
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/backSound.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/backSound.wav"));
             play = AudioSystem.getClip();
             play.open(in);
             play.loop (Clip.LOOP_CONTINUOUSLY);
@@ -51,7 +51,7 @@ public class SoundEffect {
     //player move
     public static void playerMove(){
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/running.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/running.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(in);
             clip.start();
@@ -64,7 +64,7 @@ public class SoundEffect {
     //play eatItem
     public static void playerEatItem(){
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/eatItem.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/eatItem.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(in);
             clip.start();
@@ -77,7 +77,7 @@ public class SoundEffect {
     //player place bomb
     public static void playerPlaceBomb(){
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/placeBomb.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/placeBomb.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(in);
             clip.start();
@@ -90,7 +90,7 @@ public class SoundEffect {
     //bomb exploded
     public static void bombExploded(){
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/bombExplode.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/bombExplode.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(in);
             clip.start();
@@ -104,7 +104,7 @@ public class SoundEffect {
     public static void playerDie(){
         play.stop();
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/die.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/die.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(in);
             clip.start();
@@ -117,7 +117,7 @@ public class SoundEffect {
     //Game Over
     public static void gameOver(){
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/gameOver.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/gameOver.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(in);
             clip.loop (Clip.LOOP_CONTINUOUSLY);
@@ -130,7 +130,7 @@ public class SoundEffect {
     //player win
     public static void playWin(){
         try{
-            AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/win.wav"));
+            AudioInputStream in = AudioSystem.getAudioInputStream(new File("/bomberman/src/main/resources/sound/win.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(in);
             clip.loop (Clip.LOOP_CONTINUOUSLY);

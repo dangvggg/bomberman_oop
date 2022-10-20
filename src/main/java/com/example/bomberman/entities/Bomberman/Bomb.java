@@ -5,6 +5,7 @@ import com.example.bomberman.SoundEffect;
 import com.example.bomberman.entities.Enemy.Enemy;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.entities.NormalObject.Brick;
+import com.example.bomberman.entities.NormalObject.Wall;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
@@ -17,7 +18,6 @@ public class Bomb extends Entity {
     // Danh sach cac flames hien ra khi bomb no
 
     private List<Flame> flames = new ArrayList<>();
-    private boolean done = false;
     private boolean exploded = false;
     private int explosionCountDown = 20;
     private int tickingCountDown = 90;
@@ -33,10 +33,6 @@ public class Bomb extends Entity {
         super(x, y, img);
         this.bombLevel = bombLevel;
         setFlames();
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
     }
 
     public boolean isExploded() {
@@ -75,7 +71,6 @@ public class Bomb extends Entity {
 
     public void explodingImg() {
         if (explosionCountDown == 0) {
-            setDone(true);
             this.img = null;
         } else {
             this.img = Sprite
@@ -132,7 +127,8 @@ public class Bomb extends Entity {
                         if (oX == fX && x == oX && oY - fY == 1 ||
                                 oX == fX && x == oX && oY - fY == -1 ||
                                 oX - fX == -1 && oY == fY && y == oY ||
-                                oX - fX == 1 && oY == fY && y == oY) {
+                                oX - fX == 1 && oY == fY && y == oY ||
+                                oX == fX && x == oX && oY == fY) {
                             ((Enemy) o).setDamaged(true);
                             damagedEntities.add(o);
                         }
@@ -158,7 +154,8 @@ public class Bomb extends Entity {
                 if (oX == fX && x == oX && oY - fY == 1 ||
                         oX == fX && x == oX && oY - fY == -1 ||
                         oX - fX == -1 && oY == fY && y == oY ||
-                        oX - fX == 1 && oY == fY && y == oY) {
+                        oX - fX == 1 && oY == fY && y == oY ||
+                        oX == fX && x == oX && oY == fY) {
                     ((Bomber) o).setDamaged(true);
                     damagedEntities.add(o);
                 }
@@ -187,20 +184,22 @@ public class Bomb extends Entity {
                 if (row > 0 && row < BombermanGame.WIDTH - 1 && col > 0 && col < BombermanGame.HEIGHT - 1) {
                     char flag = BombermanGame.map[col][row];
                     if (flag == '*') {
-                        System.out.println("(" + col + " " + row + ")");
-                        BombermanGame.map[col][row] = 'g';
+                        flames.add(new Flame(x / Sprite.SCALED_SIZE + iX[i] * 1, y / Sprite.SCALED_SIZE + iY[i] * 1, null, pos[i + 4]));
+                        break;
                     }
                     if (flag == 'x') {
-                        System.out.println("(" + col + " " + row + ")");
                         BombermanGame.map[col][row] = 'x';
                     }
-                    if (j == bombLevel) {
-                        flames.add(new Flame(x / Sprite.SCALED_SIZE + iX[i] * bombLevel, y / Sprite.SCALED_SIZE + iY[i] * bombLevel, null, pos[i + 4]));
+                    if (flag == '#') {
+                        break;
                     } else {
-                        flames.add(new Flame(x / Sprite.SCALED_SIZE + iX[i] * j, y / Sprite.SCALED_SIZE + iY[i] * j, null, pos[i]));
+                        if (j == bombLevel) {
+                            flames.add(new Flame(x / Sprite.SCALED_SIZE + iX[i] * bombLevel, y / Sprite.SCALED_SIZE + iY[i] * bombLevel, null, pos[i + 4]));
+                        } else {
+                            flames.add(new Flame(x / Sprite.SCALED_SIZE + iX[i] * j, y / Sprite.SCALED_SIZE + iY[i] * j, null, pos[i]));
+                        }
                     }
                 }
-
             }
         }
     }

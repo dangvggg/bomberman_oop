@@ -11,7 +11,7 @@ public abstract class Enemy extends Entity {
     protected int life;
     protected int direction = 1;
     protected boolean throughWall;
-    protected int deathCountDown = 100;
+    protected int deathCountDown = 50;
 
     public Enemy(int x, int y, Image img) {
         super(x, y, img);
@@ -130,7 +130,7 @@ public abstract class Enemy extends Entity {
     }
 
     public void die() {
-
+        setDamaged(true);
     }
 
     @Override
@@ -165,4 +165,3 @@ public abstract class Enemy extends Entity {
         }
     }
 }
-

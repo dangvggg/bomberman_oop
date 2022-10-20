@@ -5,6 +5,9 @@ import com.example.bomberman.entities.Bomberman.Bomb;
 import com.example.bomberman.entities.Bomberman.Bomber;
 import com.example.bomberman.entities.Bomberman.Flame;
 import com.example.bomberman.entities.Enemy.*;
+import com.example.bomberman.entities.Item.BombItem;
+import com.example.bomberman.entities.Item.FlameItem;
+import com.example.bomberman.entities.Item.SpeedItem;
 import com.example.bomberman.entities.NormalObject.Brick;
 import com.example.bomberman.entities.NormalObject.Grass;
 import com.example.bomberman.entities.NormalObject.Portal;
@@ -22,12 +25,12 @@ import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class BombermanGame extends Application {
-
+    public static final BombermanGame INSTANCE  = new BombermanGame();
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
 
@@ -42,7 +45,7 @@ public class BombermanGame extends Application {
     public static char map[][];
     public static KeyInput keyInput = new KeyInput();
 
-
+    public static int level = 1;
     /**
      * Khoi tao game.
      */
@@ -86,7 +89,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        createMap();
+        createMap(level);
 
         SoundEffect.playGame();
         scene.setOnKeyPressed(keyEvent -> {
@@ -127,7 +130,7 @@ public class BombermanGame extends Application {
                     if (bomberman instanceof Bomber && map[curY][curX] != '*') {
 
                         Bomber bomber = (Bomber) bomberman;
-                        if (bomber.getLive() > 0 && bomber.bombCounter() < bomber.bombLimit) {
+                        if (bomber.getLive() > 0 && bomber.bombCounter() < bomber.getBombLimit()) {
 
                             // dat bom
                             Entity bomb = bomber.placeBomb();
@@ -150,9 +153,9 @@ public class BombermanGame extends Application {
         }
     }
 
-    public void createMap() {
+    public void createMap(int level) {
         try {
-            Scanner scf = new Scanner(new BufferedReader(new FileReader("res/levels/Level" + 1 + ".txt")));
+            Scanner scf = new Scanner(new BufferedReader(new FileReader("src/main/resources/levels/Level" + Integer.toString(level) + ".txt")));
 
             int lv = scf.nextInt();
             int row = scf.nextInt();
@@ -182,6 +185,30 @@ public class BombermanGame extends Application {
                         case 'x' -> {
                             stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
                             object = new Portal(j, i, Sprite.portal.getFxImage());
+                            staticObjects.add(object);
+                            object = new Brick(j, i, Sprite.brick.getFxImage());
+                            staticObjects.add(object);
+                            map[i][j] = '*';
+                        }
+                        case 's' -> {
+                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                            object = new SpeedItem(j, i, Sprite.powerup_speed.getFxImage());
+                            staticObjects.add(object);
+                            object = new Brick(j, i, Sprite.brick.getFxImage());
+                            staticObjects.add(object);
+                            map[i][j] = '*';
+                        }
+                        case 'f' -> {
+                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                            object = new FlameItem(j, i, Sprite.powerup_flames.getFxImage());
+                            staticObjects.add(object);
+                            object = new Brick(j, i, Sprite.brick.getFxImage());
+                            staticObjects.add(object);
+                            map[i][j] = '*';
+                        }
+                        case 'b' -> {
+                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                            object = new BombItem(j, i, Sprite.powerup_bombs.getFxImage());
                             staticObjects.add(object);
                             object = new Brick(j, i, Sprite.brick.getFxImage());
                             staticObjects.add(object);
@@ -271,13 +298,19 @@ public class BombermanGame extends Application {
 
     public void updateDamagedObjects() {
         // update bricks and enemies
-        for (Entity entity : entities) {
-            checkForDamagedEntities(entity);
-            for (Entity damagedEntity : damagedEntities) {
-                updateStaticObjects(damagedEntity);
+        try {
+            for (Entity entity : entities) {
+                checkForDamagedEntities(entity);
+                List<Entity> list = Collections.synchronizedList(damagedEntities);
+                for (Entity damagedEntity : list) {
+                    updateStaticObjects(damagedEntity);
+                    updateObject(damagedEntity);
+                }
             }
+        } catch (ConcurrentModificationException ignored) {
 
         }
+
         // get the explosion done (remove the flames)
         for (int i = 0; i < flames.size(); i++) {
             if (flames.get(i) instanceof Flame) {
@@ -289,8 +322,8 @@ public class BombermanGame extends Application {
         if (bomberman instanceof Bomber) {
             Bomber bomber = (Bomber) bomberman;
             if (bomber.collision(entities)) {
-                int life_of_a_little_shit = bomber.getLive() - 1;
-                bomber.setLive(life_of_a_little_shit);
+                int life_left = bomber.getLive() - 1;
+                bomber.setLive(life_left);
             }
         }
 
@@ -301,7 +334,7 @@ public class BombermanGame extends Application {
         if (o instanceof Bomb) {
             if (((Bomb) o).isExploded()) {
 
-                // enable   bomber go through the place used to be for the bomb
+                // enable bomber go through the place used to be for the bomb
                 int curY = o.getY() / Sprite.SCALED_SIZE;
                 int curX = o.getX() / Sprite.SCALED_SIZE;
                 map[curY][curX] = 'g';
@@ -313,25 +346,27 @@ public class BombermanGame extends Application {
         }
     }
 
+
     public void updateStaticObjects(Entity br) {
         if (br instanceof Brick) {
             if (((Brick) br).isDone()) {
-
-                Brick brick = (Brick) br;
-
-                // replace the tile with the grass
-                damagedEntities.remove(br);
                 staticObjects.remove(br);
-                Entity entity = new Grass(br.getX() / Sprite.SCALED_SIZE, br.getY() / Sprite.SCALED_SIZE, Sprite.grass.getFxImage());
-                if (brick.getItem() != null) {
-                    staticObjects.add(entity);
-                } else {
-                    stillObjects.add(entity);
-                }
-            } else {
-                br.update();
+                damagedEntities.remove(br);
             }
         }
     }
-}
 
+    //notice
+    public void updateObject(Entity ey) {
+        if (ey instanceof Enemy) {
+            if (((Enemy) ey).isDamaged()) {
+                entities.remove(ey);
+                damagedEntities.remove(ey);
+            }
+        }
+    }
+    @Override
+    public void stop() {
+        System.out.println("waiting");
+    }
+}

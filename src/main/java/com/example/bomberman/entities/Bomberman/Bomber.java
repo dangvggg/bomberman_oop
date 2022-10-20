@@ -5,6 +5,7 @@ import com.example.bomberman.SoundEffect;
 import com.example.bomberman.entities.CurrentImage;
 import com.example.bomberman.entities.Enemy.Enemy;
 import com.example.bomberman.entities.Entity;
+import com.example.bomberman.entities.Item.SpeedItem;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
@@ -15,11 +16,12 @@ public class Bomber extends Entity {
 
     private boolean damaged = false;
     public List<Bomb> bombList = new ArrayList<Bomb>();
-    private int bombRange = 5;
-    public int bombLimit = 2;
-    public int speed = 2;
-    private int deathCountDown = 100;
+    private int bombRange = 1;
+    private int bombLimit = 1;
+    private int speed = 1;
+    private int deathCountDown = 150;
     private int live = 1;
+    private int Imagespeed = 32;
 
     /*
     For rendering
@@ -55,6 +57,30 @@ public class Bomber extends Entity {
         return damaged;
     }
 
+    public int getImagespeed() {
+        return Imagespeed;
+    }
+
+    public void setImagespeed(int imagespeed) {
+        Imagespeed = imagespeed;
+    }
+
+    public int getBombRange() {
+        return bombRange;
+    }
+
+    public void setBombRange(int bombRange) {
+        this.bombRange = bombRange;
+    }
+
+    public int getBombLimit() {
+        return bombLimit;
+    }
+
+    public void setBombLimit(int bombLimit) {
+        this.bombLimit = bombLimit;
+    }
+
     /*
     MOVEMENTS AND BOMB PLACING.
      */
@@ -64,7 +90,7 @@ public class Bomber extends Entity {
         img = Sprite
                 .movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, currentImage.right)
                 .getFxImage();
-        if (currentImage.right == 8) {
+        if (currentImage.right == Imagespeed) {
             currentImage.right = 0;
         } else {
             currentImage.right++;
@@ -96,7 +122,7 @@ public class Bomber extends Entity {
         img = Sprite
                 .movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, currentImage.left)
                 .getFxImage();
-        if (currentImage.left == 8) {
+        if (currentImage.left == Imagespeed) {
             currentImage.left = 0;
         } else {
             currentImage.left++;
@@ -124,7 +150,7 @@ public class Bomber extends Entity {
         img = Sprite
                 .movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, currentImage.up)
                 .getFxImage();
-        if (currentImage.up == 8) {
+        if (currentImage.up == Imagespeed) {
             currentImage.up = 0;
         } else {
             currentImage.up++;
@@ -146,7 +172,7 @@ public class Bomber extends Entity {
         img = Sprite
                 .movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, currentImage.down)
                 .getFxImage();
-        if (currentImage.down == 8) {
+        if (currentImage.down == Imagespeed) {
             currentImage.down = 0;
         } else {
             currentImage.down++;
@@ -239,4 +265,5 @@ public class Bomber extends Entity {
         }
         return false;
     }
+
 }

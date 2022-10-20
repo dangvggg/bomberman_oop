@@ -1,30 +1,19 @@
-package com.example.bomberman.entities.NormalObject;
+package com.example.bomberman.entities.Item;
 
-import com.example.bomberman.BombermanGame;
 import com.example.bomberman.entities.Bomberman.Bomber;
+import com.example.bomberman.entities.Enemy.Enemy;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
-import com.example.bomberman.changeLevel;
 
 import static com.example.bomberman.BombermanGame.entities;
 
-public class Portal extends Entity {
-    public Portal(int xUnit, int yUnit, Image img) {
-        super(xUnit, yUnit, img);
+
+public class BombItem extends Item {
+
+    public BombItem(int x, int y, Image img) {
+        super(x, y, img);
     }
-    public static boolean LevelUp = false;
-
-
-    public static boolean isLevelUp() {
-        return LevelUp;
-    }
-
-    public void setLevelUp(boolean levelUp) {
-        LevelUp = levelUp;
-    }
-
-
 
     @Override
     public void update() {
@@ -33,14 +22,10 @@ public class Portal extends Entity {
                 int oX = o.getX() / Sprite.SCALED_SIZE,  x = this.getX() / Sprite.SCALED_SIZE;
                 int oY = o.getY() / Sprite.SCALED_SIZE,  y = this.getY() / Sprite.SCALED_SIZE;
                 if(oX == x && oY == y) {
-                    LevelUp = true;
-                    changeLevel.changeMap(BombermanGame.level);
+                    ((Bomber) o).setBombLimit(2);
+                    this.img = null;
                 }
             }
         }
-
     }
-
-
-
 }

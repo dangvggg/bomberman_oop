@@ -184,12 +184,16 @@ public class Bomb extends Entity {
                 if (row > 0 && row < BombermanGame.WIDTH - 1 && col > 0 && col < BombermanGame.HEIGHT - 1) {
                     char flag = BombermanGame.map[col][row];
                     if (flag == '*') {
-                        BombermanGame.map[col][row] = 'g';
+                        flames.add(new Flame(x / Sprite.SCALED_SIZE + iX[i] * 1, y / Sprite.SCALED_SIZE + iY[i] * 1, null, pos[i + 4]));
+                        break;
                     }
                     if (flag == 'x') {
                         BombermanGame.map[col][row] = 'x';
                     }
-                    if(flag != '#'){
+                    if(flag == '#'){
+                        break;
+                    }
+                        else {
                     if (j == bombLevel) {
                         flames.add(new Flame(x / Sprite.SCALED_SIZE + iX[i] * bombLevel, y / Sprite.SCALED_SIZE + iY[i] * bombLevel, null, pos[i + 4]));
                     } else {

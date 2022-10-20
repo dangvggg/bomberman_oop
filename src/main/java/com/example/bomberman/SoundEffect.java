@@ -22,7 +22,7 @@ public class SoundEffect {
         }
     }
 
-    //an Start, Stop, Continue
+    //Start, Stop, Continue
     public static void StartButton(){
         try{
             AudioInputStream in = AudioSystem.getAudioInputStream(new File("E:/bomberman/src/main/resources/sound/button.wav"));

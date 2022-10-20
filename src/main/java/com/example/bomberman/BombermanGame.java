@@ -25,9 +25,9 @@ import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class BombermanGame extends Application {
 
@@ -298,14 +298,19 @@ public class BombermanGame extends Application {
 
     public void updateDamagedObjects() {
         // update bricks and enemies
-        for (Entity entity : entities) {
-            checkForDamagedEntities(entity);
-            for (Entity damagedEntity : damagedEntities) {
-                updateStaticObjects(damagedEntity);
-                updateObject(damagedEntity);
+        try {
+            for (Entity entity : entities) {
+                checkForDamagedEntities(entity);
+                List<Entity> list = Collections.synchronizedList(damagedEntities);
+                for (Entity damagedEntity : list) {
+                    updateStaticObjects(damagedEntity);
+                    updateObject(damagedEntity);
+                }
             }
+        } catch (ConcurrentModificationException ignored) {
 
         }
+
         // get the explosion done (remove the flames)
         for (int i = 0; i < flames.size(); i++) {
             if (flames.get(i) instanceof Flame) {
@@ -342,23 +347,11 @@ public class BombermanGame extends Application {
     }
 
 
-
     public void updateStaticObjects(Entity br) {
         if (br instanceof Brick) {
             if (((Brick) br).isDone()) {
-
-                Brick brick = (Brick) br;
-                // replace the tile with the grass
-                damagedEntities.remove(br);
                 staticObjects.remove(br);
-                Entity entity = new Grass(br.getX() / Sprite.SCALED_SIZE, br.getY() / Sprite.SCALED_SIZE, Sprite.grass.getFxImage());
-                if (brick.getItem() != null) {
-                    staticObjects.add(entity);
-                } else {
-                    stillObjects.add(entity);
-                }
-            } else {
-                br.update();
+                damagedEntities.remove(br);
             }
         }
     }

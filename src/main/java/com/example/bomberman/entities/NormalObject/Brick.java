@@ -6,10 +6,9 @@ import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
 public class Brick extends Entity {
-    private Item item = null;
     private boolean damaged = false;
     private boolean done = false;
-    private int deathCountDown = 200;
+    private int deathCountDown = 40;
 
     public Brick(int x, int y, Image img) {
         super(x, y, img);
@@ -17,7 +16,6 @@ public class Brick extends Entity {
 
     public Brick(int x, int y, Image img, Item item) {
         super(x, y, img);
-        this.item = item;
     }
 
     public boolean isDamaged() {
@@ -34,11 +32,6 @@ public class Brick extends Entity {
 
     public void setDone(boolean done) {
         this.done = done;
-    }
-
-
-    public Item getItem() {
-        return item;
     }
 
     public void collapsingImg() {

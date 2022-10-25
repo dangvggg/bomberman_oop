@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class BombermanGame extends Application {
-    public static final BombermanGame INSTANCE  = new BombermanGame();
+    public static final BombermanGame INSTANCE = new BombermanGame();
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
 
@@ -46,6 +46,7 @@ public class BombermanGame extends Application {
     public static KeyInput keyInput = new KeyInput();
 
     public static int level = 1;
+
     /**
      * Khoi tao game.
      */
@@ -242,24 +243,6 @@ public class BombermanGame extends Application {
                             entities.add(object);
                             map[i][j] = '3';
                         }
-                        case '4' -> {
-                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
-                            object = new Doll(j, i, Sprite.player_right.getFxImage());
-                            entities.add(object);
-                            map[i][j] = '4';
-                        }
-                        case '5' -> {
-                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
-                            object = new Ghost(j, i, Sprite.player_right.getFxImage());
-                            entities.add(object);
-                            map[i][j] = '5';
-                        }
-                        case '6' -> {
-                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
-                            object = new Kondoria(j, i, Sprite.player_right.getFxImage());
-                            entities.add(object);
-                            map[i][j] = '6';
-                        }
                         default -> {
                             object = new Grass(j, i, Sprite.grass.getFxImage());
                             stillObjects.add(object);
@@ -375,6 +358,7 @@ public class BombermanGame extends Application {
             }
         }
     }
+
     public void changeLevel() {
         if (Portal.LevelUp == true) {
             level++;

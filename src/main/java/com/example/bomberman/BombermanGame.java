@@ -341,17 +341,18 @@ public class BombermanGame extends Application {
 
                 // check if the bomb damange any objects
                 ((Bomb) o).handleFlameCollision(entities, staticObjects, damagedEntities);
-                System.out.println(entities.remove(o));
+                entities.remove(o);
             }
         }
     }
 
 
     public void updateStaticObjects(Entity br) {
-        if (br instanceof Brick) {
+        if (br instanceof Brick brick) {
             if (((Brick) br).isDone()) {
                 staticObjects.remove(br);
                 damagedEntities.remove(br);
+                BombermanGame.map[brick.getY()/Sprite.SCALED_SIZE][brick.getX()/Sprite.SCALED_SIZE] = 'g';
             }
         }
     }

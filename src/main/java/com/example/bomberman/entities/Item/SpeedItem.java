@@ -1,5 +1,6 @@
 package com.example.bomberman.entities.Item;
 
+import com.example.bomberman.SoundEffect;
 import com.example.bomberman.entities.Bomberman.Bomber;
 import com.example.bomberman.entities.Enemy.Enemy;
 import com.example.bomberman.entities.Entity;
@@ -19,11 +20,12 @@ public class SpeedItem extends Item {
     public void update() {
         for (Entity o : entities) {
             if (o instanceof Bomber) {
-                int oX = o.getX() / Sprite.SCALED_SIZE,  x = this.getX() / Sprite.SCALED_SIZE;
-                int oY = o.getY() / Sprite.SCALED_SIZE,  y = this.getY() / Sprite.SCALED_SIZE;
-                if(oX == x && oY == y) {
+                int X = o.getX() / Sprite.SCALED_SIZE,  x = this.getX() / Sprite.SCALED_SIZE;
+                int Y = o.getY() / Sprite.SCALED_SIZE,  y = this.getY() / Sprite.SCALED_SIZE;
+                if(X == x && Y == y) {
                     ((Bomber) o).setSpeed(2);
-                    ((Bomber) o).setImagespeed(8);
+                    ((Bomber) o).setImagespeed(12);
+                    SoundEffect.playerEatItem();
                     this.img = null;
                 }
             }

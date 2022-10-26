@@ -24,7 +24,6 @@ public class FlameItem extends Item {
                 int Y = o.getY() / Sprite.SCALED_SIZE,  y = this.getY() / Sprite.SCALED_SIZE;
                 if(X == x && Y == y) {
                     ((Bomber) o).setBombRange(2);
-                    SoundEffect.playerEatItem();
                     this.img = null;
                 }
             }

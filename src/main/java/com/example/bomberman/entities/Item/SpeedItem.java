@@ -25,7 +25,6 @@ public class SpeedItem extends Item {
                 if(X == x && Y == y) {
                     ((Bomber) o).setSpeed(2);
                     ((Bomber) o).setImagespeed(12);
-                    SoundEffect.playerEatItem();
                     this.img = null;
                 }
             }

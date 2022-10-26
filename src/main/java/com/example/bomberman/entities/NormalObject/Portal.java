@@ -13,15 +13,15 @@ public class Portal extends Entity {
         super(xUnit, yUnit, img);
     }
 
-    public static boolean LevelUp = false;
+    public static boolean levelUp = false;
 
 
     public static boolean isLevelUp() {
-        return LevelUp;
+        return levelUp;
     }
 
     public void setLevelUp(boolean levelUp) {
-        LevelUp = levelUp;
+        this.levelUp = levelUp;
     }
 
 
@@ -31,9 +31,17 @@ public class Portal extends Entity {
             if (o instanceof Bomber) {
                 int oX = o.getX() / Sprite.SCALED_SIZE, x = this.getX() / Sprite.SCALED_SIZE;
                 int oY = o.getY() / Sprite.SCALED_SIZE, y = this.getY() / Sprite.SCALED_SIZE;
-                if (oX == x && oY == y && BombermanGame.numberOfEnemy == 0) {
-                    LevelUp = true;
-                    BombermanGame.INSTANCE.changeLevel();
+                if (oX == x && oY == y) {
+                    levelUp = true;
+                    if(levelUp == true && BombermanGame.numberOfEnemy < 1)
+                    {
+                        BombermanGame.INSTANCE.changeLevel();
+                        setLevelUp(false);
+                        ((Bomber) o).setBombLimit(1);
+                        ((Bomber) o).setBombRange(1);
+                        ((Bomber) o).setSpeed(1);
+                        ((Bomber) o).setImagespeed(32);
+                    }
                 }
             }
         }

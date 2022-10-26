@@ -46,7 +46,7 @@ public class BombermanGame extends Application {
     public static KeyInput keyInput = new KeyInput();
 
     public static int level = 1;
-    public static int numberOfEnemy = level + 1;
+    public static int numberOfEnemy = 2;
     /**
      * Khoi tao game.
      */
@@ -78,7 +78,6 @@ public class BombermanGame extends Application {
         stage.show();
 
 
-        entities.add(bomberman);
 
         // loop
         AnimationTimer timer = new AnimationTimer() {
@@ -148,7 +147,7 @@ public class BombermanGame extends Application {
     public static void printMap() {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                System.out.print(map[i][j] + "");
+                System.out.print(map[i][j] + " ");
             }
             System.out.println();
         }
@@ -161,6 +160,8 @@ public class BombermanGame extends Application {
             flames.clear();
             staticObjects.clear();
             damagedEntities.clear();
+            bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+
 
             Scanner scf = new Scanner(new BufferedReader(new FileReader("src/main/resources/levels/level" + Integer.toString(level) + ".txt")));
 
@@ -179,8 +180,8 @@ public class BombermanGame extends Application {
                     char key = s1.charAt(j);
                     switch (key) {
                         case 'p' -> {
-                            entities.add(bomberman);
                             stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                            entities.add(bomberman);
                         }
                         case '#' -> {
                             object = new Wall(j, i, Sprite.wall.getFxImage());
@@ -361,9 +362,8 @@ public class BombermanGame extends Application {
         }
     }
     public void changeLevel() {
-        if (Portal.LevelUp == true) {
             level++;
             createMap(level);
-        }
+            numberOfEnemy = level + 1;
     }
 }

@@ -41,7 +41,6 @@ public class Flame extends Entity {
                 setDone(true);
             }
         } else {
-            System.out.println(pos);
             switch (pos) {
                 case "left", "right" -> this.img = Sprite
                         .bombExplodeSprite(Sprite.explosion_horizontal, Sprite.explosion_horizontal1,

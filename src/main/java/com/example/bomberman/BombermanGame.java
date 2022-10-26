@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class BombermanGame extends Application {
-
+    public static final BombermanGame INSTANCE = new BombermanGame();
     public static final int WIDTH = 31;
     public static final int HEIGHT = 13;
 
@@ -45,7 +45,8 @@ public class BombermanGame extends Application {
     public static char map[][];
     public static KeyInput keyInput = new KeyInput();
 
-
+    public static int level = 1;
+    public static int numberOfEnemy = 2;
     /**
      * Khoi tao game.
      */
@@ -77,7 +78,6 @@ public class BombermanGame extends Application {
         stage.show();
 
 
-        entities.add(bomberman);
 
         // loop
         AnimationTimer timer = new AnimationTimer() {
@@ -89,7 +89,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
 
-        createMap();
+        createMap(level);
 
         SoundEffect.playGame();
         scene.setOnKeyPressed(keyEvent -> {
@@ -145,17 +145,25 @@ public class BombermanGame extends Application {
     }
 
     public static void printMap() {
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                System.out.print(map[i][j] + " ");
-            }
-            System.out.println();
-        }
+//        for (int i = 0; i < HEIGHT; i++) {
+//            for (int j = 0; j < WIDTH; j++) {
+//                System.out.print(map[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
     }
 
-    public void createMap() {
+    public void createMap(int level) {
         try {
-            Scanner scf = new Scanner(new BufferedReader(new FileReader("src/main/resources/levels/Level" + 1 + ".txt")));
+            stillObjects.clear();
+            entities.clear();
+            flames.clear();
+            staticObjects.clear();
+            damagedEntities.clear();
+            bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
+
+
+            Scanner scf = new Scanner(new BufferedReader(new FileReader("src/main/resources/levels/level" + Integer.toString(level) + ".txt")));
 
             int lv = scf.nextInt();
             int row = scf.nextInt();
@@ -166,11 +174,14 @@ public class BombermanGame extends Application {
             // Xu ly thong tin trong file
             for (int i = 0; i < row; i++) {
                 String s1 = scf.nextLine();
-                System.out.println(s1);
                 for (int j = 0; j < col; j++) {
                     Entity object;
                     char key = s1.charAt(j);
                     switch (key) {
+                        case 'p' -> {
+                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                            entities.add(bomberman);
+                        }
                         case '#' -> {
                             object = new Wall(j, i, Sprite.wall.getFxImage());
                             stillObjects.add(object);
@@ -232,24 +243,6 @@ public class BombermanGame extends Application {
                             entities.add(object);
                             map[i][j] = '3';
                         }
-                        case '4' -> {
-                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
-                            object = new Doll(j, i, Sprite.player_right.getFxImage());
-                            entities.add(object);
-                            map[i][j] = '4';
-                        }
-                        case '5' -> {
-                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
-                            object = new Ghost(j, i, Sprite.player_right.getFxImage());
-                            entities.add(object);
-                            map[i][j] = '5';
-                        }
-                        case '6' -> {
-                            stillObjects.add(new Grass(j, i, Sprite.grass.getFxImage()));
-                            object = new Kondoria(j, i, Sprite.player_right.getFxImage());
-                            entities.add(object);
-                            map[i][j] = '6';
-                        }
                         default -> {
                             object = new Grass(j, i, Sprite.grass.getFxImage());
                             stillObjects.add(object);
@@ -274,8 +267,13 @@ public class BombermanGame extends Application {
         for (Entity stillObject : stillObjects) {
             stillObject.update();
         }
+        try{
         for (Entity staticObject : staticObjects) {
             staticObject.update();
+        }
+        }
+        catch(ConcurrentModificationException e){
+
         }
     }
 
@@ -347,6 +345,7 @@ public class BombermanGame extends Application {
     }
 
 
+
     public void updateStaticObjects(Entity br) {
         if (br instanceof Brick brick) {
             if (((Brick) br).isDone()) {
@@ -357,14 +356,20 @@ public class BombermanGame extends Application {
         }
     }
 
+
     //notice
     public void updateObject(Entity ey) {
         if (ey instanceof Enemy) {
             if (((Enemy) ey).isDamaged()) {
                 entities.remove(ey);
                 damagedEntities.remove(ey);
+                numberOfEnemy--;
             }
         }
     }
+    public void changeLevel() {
+            level++;
+            createMap(level);
+            numberOfEnemy = level + 1;
+    }
 }
-

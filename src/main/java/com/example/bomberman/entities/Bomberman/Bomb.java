@@ -9,6 +9,8 @@ import com.example.bomberman.entities.NormalObject.Wall;
 import com.example.bomberman.graphics.Sprite;
 import javafx.scene.image.Image;
 
+import javax.sound.sampled.LineUnavailableException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class Bomb extends Entity {
         }
     }
 
-    public void tickingImg() {
+    public void tickingImg(){
         if (tickingCountDown == 0) {
             SoundEffect.bombExploded();
             setExploded(true);

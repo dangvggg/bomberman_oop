@@ -1,6 +1,5 @@
 package com.example.bomberman.entities.Item;
 
-import com.example.bomberman.SoundEffect;
 import com.example.bomberman.entities.Bomberman.Bomber;
 import com.example.bomberman.entities.Enemy.Enemy;
 import com.example.bomberman.entities.Entity;

@@ -46,7 +46,7 @@ public class BombermanGame extends Application {
     public static KeyInput keyInput = new KeyInput();
 
     public static int level = 1;
-
+    public static int numberOfEnemy = level + 1;
     /**
      * Khoi tao game.
      */
@@ -148,7 +148,7 @@ public class BombermanGame extends Application {
     public static void printMap() {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                System.out.print(map[i][j] + " ");
+                System.out.print(map[i][j] + "");
             }
             System.out.println();
         }
@@ -162,7 +162,7 @@ public class BombermanGame extends Application {
             staticObjects.clear();
             damagedEntities.clear();
 
-            Scanner scf = new Scanner(new BufferedReader(new FileReader("src/main/resources/levels/Level" + Integer.toString(level) + ".txt")));
+            Scanner scf = new Scanner(new BufferedReader(new FileReader("src/main/resources/levels/level" + Integer.toString(level) + ".txt")));
 
             int lv = scf.nextInt();
             int row = scf.nextInt();
@@ -355,10 +355,11 @@ public class BombermanGame extends Application {
             if (((Enemy) ey).isDamaged()) {
                 entities.remove(ey);
                 damagedEntities.remove(ey);
+                numberOfEnemy--;
+                System.out.println(numberOfEnemy);
             }
         }
     }
-
     public void changeLevel() {
         if (Portal.LevelUp == true) {
             level++;

@@ -91,7 +91,9 @@ public class BombermanGame extends Application {
 
         createMap(level);
 
-        SoundEffect.playGame();
+        if(level == 1) {
+            SoundEffect.playGame();
+        }
         scene.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getCode()) {
                 case LEFT -> {

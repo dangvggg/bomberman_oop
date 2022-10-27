@@ -10,50 +10,6 @@ import javax.sound.sampled.Clip;
 public class SoundEffect {
 
     private static Clip play;
-    //menuStart
-    public static void menuStart(){
-        AudioInputStream in = null;
-        Clip clip = null;
-        try{
-            in = AudioSystem.getAudioInputStream(new File("/bomberman_oop2/src/main/resources/sound/gameStart.wav"));
-            clip = AudioSystem.getClip();
-            clip.open(in);
-            clip.loop (Clip.LOOP_CONTINUOUSLY);
-        }
-        catch(Exception e){
-            try {
-                assert in != null;
-                in.close();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            assert clip != null;
-            clip.close();
-            e.printStackTrace();
-        }
-    }
-
-    //a Start, Stop, Continue
-    public static void StartButton(){
-        AudioInputStream in = null;
-        Clip clip = null;
-        try{
-            in = AudioSystem.getAudioInputStream(new File("/bomberman_oop2/src/main/resources/sound/button.wav"));
-            clip = AudioSystem.getClip();
-            clip.open(in);
-            clip.start();
-        }
-        catch(Exception e){
-            try {
-                in.close();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            assert clip != null;
-            clip.close();
-            e.printStackTrace();
-        }
-    }
 
     //playGame
     public static void playGame(){

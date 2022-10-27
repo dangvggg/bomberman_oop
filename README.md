@@ -7,7 +7,7 @@ Yêu cầu của bài tập lớn Bomberman Game là viết một phiên bản J
 
 | Họ và tên     | Mã sinh viên |
 | ------------- | ------------ |
-| [Hoàng Quốc Đạt](https://github.com/quocdat1203) | 2102    |
+| [Hoàng Quốc Đạt](https://github.com/quocdat1203) | 21020617    |
 | [Vũ Hải Đăng](https://github.com/dangvggg)  | 21021479     |
 
 ## Mô tả về các đối tượng trong trò chơi

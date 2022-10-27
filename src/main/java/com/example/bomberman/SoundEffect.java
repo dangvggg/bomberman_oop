@@ -52,6 +52,7 @@ public class SoundEffect {
             clip.close();
             e.printStackTrace();
         }
+        clip.close();
     }
 
     //play eatItem
@@ -133,29 +134,6 @@ public class SoundEffect {
             clip = AudioSystem.getClip();
             clip.open(in);
             clip.start();
-        }
-        catch(Exception e){
-            try {
-                assert in != null;
-                in.close();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            assert clip != null;
-            clip.close();
-            e.printStackTrace();
-        }
-    }
-
-    //Game Over
-    public static void gameOver(){
-        AudioInputStream in = null;
-        Clip clip = null;
-        try{
-            in = AudioSystem.getAudioInputStream(new File("/bomberman_oop2/src/main/resources/sound/gameOver.wav"));
-            clip = AudioSystem.getClip();
-            clip.open(in);
-            clip.loop (Clip.LOOP_CONTINUOUSLY);
         }
         catch(Exception e){
             try {

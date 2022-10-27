@@ -47,6 +47,8 @@ public class BombermanGame extends Application {
 
     public static int level = 1;
     public static int numberOfEnemy = 2;
+    public static int maxLevel = 3;
+
     /**
      * Khoi tao game.
      */
@@ -78,7 +80,6 @@ public class BombermanGame extends Application {
         stage.show();
 
 
-
         // loop
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -91,7 +92,7 @@ public class BombermanGame extends Application {
 
         createMap(level);
 
-        if(level == 1) {
+        if (level == 1) {
             SoundEffect.playGame();
         }
         scene.setOnKeyPressed(keyEvent -> {
@@ -269,12 +270,11 @@ public class BombermanGame extends Application {
         for (Entity stillObject : stillObjects) {
             stillObject.update();
         }
-        try{
-        for (Entity staticObject : staticObjects) {
-            staticObject.update();
-        }
-        }
-        catch(ConcurrentModificationException e){
+        try {
+            for (Entity staticObject : staticObjects) {
+                staticObject.update();
+            }
+        } catch (ConcurrentModificationException e) {
 
         }
     }
@@ -347,13 +347,12 @@ public class BombermanGame extends Application {
     }
 
 
-
     public void updateStaticObjects(Entity br) {
         if (br instanceof Brick brick) {
             if (((Brick) br).isDone()) {
                 staticObjects.remove(br);
                 damagedEntities.remove(br);
-                BombermanGame.map[brick.getY()/Sprite.SCALED_SIZE][brick.getX()/Sprite.SCALED_SIZE] = 'g';
+                BombermanGame.map[brick.getY() / Sprite.SCALED_SIZE][brick.getX() / Sprite.SCALED_SIZE] = 'g';
             }
         }
     }
@@ -369,9 +368,12 @@ public class BombermanGame extends Application {
             }
         }
     }
+
     public void changeLevel() {
+        if (level < maxLevel) {
             level++;
-            createMap(level);
             numberOfEnemy = level + 1;
+        }
+        createMap(level);
     }
 }

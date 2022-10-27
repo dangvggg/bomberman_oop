@@ -1,6 +1,7 @@
 package com.example.bomberman.entities.NormalObject;
 
 import com.example.bomberman.BombermanGame;
+import com.example.bomberman.SoundEffect;
 import com.example.bomberman.entities.Bomberman.Bomber;
 import com.example.bomberman.entities.Entity;
 import com.example.bomberman.graphics.Sprite;
@@ -36,7 +37,7 @@ public class Portal extends Entity {
                     int oY = o.getY() / Sprite.SCALED_SIZE, y = this.getY() / Sprite.SCALED_SIZE;
                     if (oX == x && oY == y) {
                         levelUp = true;
-                        if(levelUp == true && BombermanGame.numberOfEnemy < 1)
+                        if(levelUp == true && BombermanGame.numberOfEnemy < 0)
                         {
                             BombermanGame.INSTANCE.changeLevel();
                             setLevelUp(false);
@@ -44,6 +45,7 @@ public class Portal extends Entity {
                             ((Bomber) o).setBombRange(1);
                             ((Bomber) o).setSpeed(1);
                             ((Bomber) o).setImagespeed(32);
+                            SoundEffect.playerEatItem();
                         }
                     }
                 }
